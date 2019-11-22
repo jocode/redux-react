@@ -1,25 +1,18 @@
 import React, { Component } from 'react';
-import axios from 'axios';
+
+// Conectando el componente a reducer
+import { connect } from 'react-redux';
+
+import * as usuariosActions from '../../actions/usuariosActions';
 
 class Users extends Component {
 
-  constructor() {
-    super();
-    this.state = {
-      usuarios: []
-    }
-  }
-
-  async componentDidMount() {
-
-    const respuesta = await axios.get('https://jsonplaceholder.typicode.com/users');
-    this.setState({
-      usuarios: respuesta.data
-    });
+  componentDidMount() {
+    this.props.traerTodos();
   }
 
   ponerFilas = () => (
-    this.state.usuarios.map((user) => (
+    this.props.usuarios.map((user) => (
       <tr key={user.id}>
         <td>{user.name}</td>
         <td>{user.email}</td>
@@ -30,7 +23,7 @@ class Users extends Component {
 
   render() {
     return (
-      <div className="margen">
+      <div>
         <table className="tabla">
           <thead>
             <tr>
@@ -48,4 +41,8 @@ class Users extends Component {
   }
 }
 
-export default Users;
+const mapStateToProps = (reducer) => {
+  return reducer.usuariosReducer;
+}
+
+export default connect(mapStateToProps, usuariosActions/*Actions*/)(Users);
