@@ -26,3 +26,12 @@
 body {
   margin: 0;
 }
+
+.center {
+  text-align: center;
+}
+
+.rojo {
+  font-family: sans-serif;
+  color: red;
+}

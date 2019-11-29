@@ -4,6 +4,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import * as usuariosActions from '../../actions/usuariosActions';
+import Spinner from '../general/Spinner';
+import Fatal from '../general/Fatal';
+import Tabla from './Tabla';
 
 class Users extends Component {
 
@@ -11,31 +14,24 @@ class Users extends Component {
     this.props.traerTodos();
   }
 
-  ponerFilas = () => (
-    this.props.usuarios.map((user) => (
-      <tr key={user.id}>
-        <td>{user.name}</td>
-        <td>{user.email}</td>
-        <td>{user.website}</td>
-      </tr>
-    ))
-  );
+  ponerContenido = () => {
+
+    if (this.props.cargando) {
+      return <Spinner />;
+    }
+
+    if (this.props.error) {
+      return <Fatal mensaje={this.props.error} />;
+    }
+
+    return <Tabla />;
+  }
 
   render() {
     return (
       <div>
-        <table className="tabla">
-          <thead>
-            <tr>
-              <th>Nombre</th>
-              <th>Correo</th>
-              <th>Enlace</th>
-            </tr>
-          </thead>
-          <tbody>
-            {this.ponerFilas()}
-          </tbody>
-        </table>
+        <h1>Usuarios</h1>
+        {this.ponerContenido()}
       </div>
     );
   }
