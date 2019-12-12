@@ -179,3 +179,43 @@ Se crea un nueco componetes para limpiar el `index` de **user**. De esta forma h
 
 
 ## 6. Compartir información en Redux
+
+
+### Parámetros por URL
+
+Para pasar parámetros por url, debemos colocar el valor en `Link` y definir la ruta con **`:parametro`** para recibir el valor
+
+* [user/Tabla.js](blog/src/components/users/Tabla.js)
+Enviamos el parámetro por url a traves de **Link**
+```js
+<Link to={`/publicaciones/${key}`}>
+  <div className="eye-solid icon"></div>
+</Link>
+```
+
+* [components/App.js](blog/src/components/App.js)
+Creamos la ruta en App.js y colocamos el comodín **:parameter**
+```js
+<Route exact path='/publicaciones/:key' component={Publicaciones} />
+```
+
+
+* [publicaciones/index.js](blog/src/components/publicaciones/index.js)
+Recibimos la variable en el componente clase a través de:
+```js
+{this.props.match.params.key}
+```
+
+
+### Compartir Reducer
+
+Como ya se tiene el reducer de usuarios, podemos compartirlo y agregarlo al nuevo componente *publicaciones* que hemos creado. Para ello también llamamos las acciones de la clase usuario para poder utilizarlos en este nuevo componente.
+
+Para eso ver el archivo [publicaciones/index.js](blog/src/components/publicaciones/index.js)
+
+
+### Multiples reducer
+
+Se crea otro reducer para el componente de publicaciones, también se debe crear las acciones para ese reducer. Sim embargo, se entra en un conflicto al utilizar el mismo nombre para la llamada de datos con el reducer.
+
+### Llamando a múltiples reducers en una acción
