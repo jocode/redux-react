@@ -163,9 +163,9 @@ Se muestra el evento cargando al usuario.
 
 Este componente se crea en caso de que algo haya salido mal. Este archivo es un componente funcional que muestra el mensaje de error en caso de que lo haya.
 
-### Tabla como 
+### Tabla como componente funcional
 
-Se crea un nueco componetes para limpiar el `index` de **user**. De esta forma hacemos un componente especial para manejar los datos de la aplicación.
+Se crea un nuevo componetes para limpiar el `index` de **user**. De esta forma hacemos un componente especial para manejar los datos de la aplicación.
 
 
 **_En resumen_**
@@ -219,3 +219,43 @@ Para eso ver el archivo [publicaciones/index.js](blog/src/components/publicacion
 Se crea otro reducer para el componente de publicaciones, también se debe crear las acciones para ese reducer. Sim embargo, se entra en un conflicto al utilizar el mismo nombre para la llamada de datos con el reducer.
 
 ### Llamando a múltiples reducers en una acción
+
+### Evitar segundas búsquedas
+
+**NOTA !WARNING**
+
+Se ha solucionado el error dónde no cargaban los datos adecuados para el **reducer**. Esto sucedió porque en el [`index.js`](blog/src/reducers/index.js) de la carpeta *reducer* no se importó el archivo adecuado para el **combineReducer()**
+
+```js
+import { combineReducers } from 'redux';
+import usuariosReducer from './usuariosReducers';
+// import publicacionesReducer from './usuariosReducers';
+import publicacionesReducer from './publicacionesReducer';
+
+export default combineReducers({
+  usuariosReducer,
+  publicacionesReducer
+});
+```
+
+
+
+Para evitar las segundas búsquedas, cargamos la búsqueda que haya realizado el usuario almacenando los valores en el estado. De esta forma cada vez que se seleccione un usuario se tiene almacenada la información respectiva para el usuario.
+
+Además para evitar la carga de usuarios en el ítem usuarios, se coloca el condicional en el `componentDidMount()` verificando que no hayan usuarios en el estado, de esta forma evitamos que se llame la función de búsqueda nuevamente.
+
+
+```js
+componentDidMount() {
+    if (!this.props.usuarios.length) {
+      this.props.traerTodos();
+    }
+  }
+```
+
+
+### Inmutabilidad
+
+Se modifica el archivo [publicacionesActions.js](blog/src/actions/publicacionesActions.js)  agregando una nueva constante de publicaciones key al arreglo de **usuarios_actualizados** que se agrega aun nuevo dispatch
+
+### Evitar sobrescritura

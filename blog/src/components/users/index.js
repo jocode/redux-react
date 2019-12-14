@@ -11,7 +11,9 @@ import Tabla from './Tabla';
 class Users extends Component {
 
   componentDidMount() {
-    this.props.traerTodos();
+    if (!this.props.usuarios.length) {
+      this.props.traerTodos();
+    }
   }
 
   ponerContenido = () => {
