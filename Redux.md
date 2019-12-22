@@ -238,8 +238,6 @@ export default combineReducers({
 });
 ```
 
-
-
 Para evitar las segundas búsquedas, cargamos la búsqueda que haya realizado el usuario almacenando los valores en el estado. De esta forma cada vez que se seleccione un usuario se tiene almacenada la información respectiva para el usuario.
 
 Además para evitar la carga de usuarios en el ítem usuarios, se coloca el condicional en el `componentDidMount()` verificando que no hayan usuarios en el estado, de esta forma evitamos que se llame la función de búsqueda nuevamente.
@@ -258,4 +256,40 @@ componentDidMount() {
 
 Se modifica el archivo [publicacionesActions.js](blog/src/actions/publicacionesActions.js)  agregando una nueva constante de publicaciones key al arreglo de **usuarios_actualizados** que se agrega aun nuevo dispatch
 
+
 ### Evitar sobrescritura
+
+Como el **Reducer es el estado**, el estado se actualiza y el `componentDidMount()` se ejecuta una vez después del `render()`.
+Entonces como es estado puede variar, y no se puede destructuras.
+
+
+### Validación compuesta
+
+En esta parte se despliega la información completa del usuario, es decir, mostrar las publicaciones.
+
+
+### Validación de errores
+
+Se hacen validaciones para las publicacionesReducer
+**NOTA** Es importante revisar las llamadas en las importaciones de los archivos. Siempre verificar que se están llamando las adecuadas.
+
+
+### Modificando respuestas de URL
+
+Se traerán los comentarios para las publicaciones. A las publicaciones se añadirán los comentarios de maneta dinámica.
+
+Para crear usar funciones dentro de las acciones y llamarlas desde los componenes, debemos crearla y exportarla en el [usuariosActions.js](blog/src/actions/usuariosActions.js). Luego debemos agregarla en el mapDispatchToProps y desestructurarla en el objeto que la estamos llamando.
+
+Finalmente se llama la función tal cual en el evento
+
+```js
+onClick={() => this.props.abrirCerrar()}
+```
+
+- [Ver publicaciones/index.js](blog/src/components/publicaciones/index.js)
+
+
+Las  publicaciones es una arreglo de arreglos, por eso se necesita el **publication key** y la posición de la publicación (`com_key` comentario key)
+
+
+### Estado con interacción
