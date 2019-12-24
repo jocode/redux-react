@@ -6,10 +6,13 @@ import Spinner from '../general/Spinner';
 
 import * as usuariosActions from '../../actions/usuariosActions';
 import * as publicacionesActions from '../../actions/publicacionesActions';
+import Comentarios from './Comentarios';
 
 
 const { traerTodos: usuariosTraerTodos } = usuariosActions;
-const { traerPorUsuario: publicacionesTraerPorUsuario, abrirCerrar } = publicacionesActions;
+const { traerPorUsuario: publicacionesTraerPorUsuario,
+  abrirCerrar,
+  traerComentarios } = publicacionesActions;
 
 class Publicaciones extends Component {
 
@@ -96,15 +99,29 @@ class Publicaciones extends Component {
     publicaciones.map((publicacion, com_key) => (
       <div
         key={publicacion.id} className='pub_titulo'
-        onClick={() => this.props.abrirCerrar(pub_key, com_key)
+        onClick={() => this.mostrarComentarios(pub_key, com_key, publicacion.comentarios)
         }>
         <h2>{publicacion.title}</h2>
         <h3>
           {publicacion.body}
         </h3>
+        {
+          (publicacion.abierto) ? <Comentarios comentarios={publicacion.comentarios} com_error='Alguna mkda' /> : ''
+        }
       </div >
     ))
   );
+
+
+  mostrarComentarios = (pub_key, com_key, comentarios) => {
+
+    this.props.abrirCerrar(pub_key, com_key);
+
+    if (!comentarios.length) {
+      this.props.traerComentarios(pub_key, com_key);
+    }
+
+  };
 
   render() {
     console.log(this.props)
@@ -127,7 +144,8 @@ const mapStateToProps = ({ usuariosReducer, publicacionesReducer }) => {
 const mapDispatchToProps = {
   usuariosTraerTodos,
   publicacionesTraerPorUsuario,
-  abrirCerrar
+  abrirCerrar,
+  traerComentarios
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Publicaciones);

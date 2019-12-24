@@ -293,3 +293,23 @@ Las  publicaciones es una arreglo de arreglos, por eso se necesita el **publicat
 
 
 ### Estado con interacción
+
+Se usa el estado para la interección con usuario, al presionar el comentario presenta abierto o cerrado.
+
+
+### Mostrar componentes dinámicamente
+
+En este caso, se hace la consulta de los comentarios de la publicación cuando se hace click en la publicación.
+
+### Props por herencia vs estado
+
+Hay dos formas de mostrar los comentarios.
+- Por herencia
+- Por el componente
+
+**NOTA** La mayoría de errores son por los nombres de las variables que les damos a nuestro código, en muchas ocasiones creemos que estamos llamando la variable correcta, por eso suceden los problemas.
+
+
+## Estado compartido
+
+Si el parámetro se le envía como atributo del componente y también se usa como reducer, tiene **prioridad** el _Reducer_
