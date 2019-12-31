@@ -479,3 +479,35 @@ Hemos terminado finalmente con el uso de Redux en nuestro proyecto, aplicando la
 
 Nos gustaría ver cómo quedó tu proyecto, compártelo en la sección de aportes de la clase para que todos podamos verlo.
 
+
+
+## Conocimientos adquiridos
+
+- **Antes** Empezamos este curso utilizando react, nuestro estado local y luego utilizando herencia para pasar las propiedades de un componente padre a un componente hijo.
+
+- **Ahora** ya estamos utilizando React y Redux en conjunto para manejar un estado global y compartirlo con cualquiera de nuestros componentes. Usando normalización de los datos y las mejores prácticas.
+
+Aprendimos a: 
+- Referenciar otros estados
+- Combinarlos en uno solo, con arreglos y con objetos
+- Aprendimos a estructurar los datos como un flujo de información, archivos types
+- Inmutabilidad y normalización. 
+- Estados de asincronía, métodos http, redireccionar a rutas y validaciones.
+
+- :bulb: Los 3 estados de la llamada obligatoria
+  - Cargando
+  - Exitoso
+  - Error
+
+
+
+## Qué hacer a continuación
+
+**"Queremos que sigas practicando:"**
+
+- Puedes usar todo el CSS que quieras incluyendo frameworks como Bootstrap o Materialize.
+- Usa más iconos que tu UI se vea muy agradable.
+- Puedes usar librerías, pero si lo puedes hacer a mano sin una librería sería muchísimo mejor.
+- [Reqres](https://reqres.in/) es similar a [JSONPlaceholder](https://jsonplaceholder.typicode.com/)
+- Si ya tienes proyectos hechos con React añádeles Redux usando lo que aprendiste en este asombroso curso."
+Sabemos que ha sido un largo camino pero estamos seguros de que valió la pena y nunca vas a parar de aprender.
