@@ -129,3 +129,5 @@ export default App;
 ```
 
 
+[Ciclo de vida de un componente de react](https://platzi.com/tutoriales/1548-react/2283-ciclo-de-vida-de-un-componente-de-react/)
+

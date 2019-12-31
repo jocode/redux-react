@@ -310,6 +310,172 @@ Hay dos formas de mostrar los comentarios.
 **NOTA** La mayoría de errores son por los nombres de las variables que les damos a nuestro código, en muchas ocasiones creemos que estamos llamando la variable correcta, por eso suceden los problemas.
 
 
-## Estado compartido
+### Estado compartido
 
 Si el parámetro se le envía como atributo del componente y también se usa como reducer, tiene **prioridad** el _Reducer_
+
+
+
+
+## 7. Introducción a métodos HTTP
+
+En esta parte se trabajará con métodos HTTP, normalizar datos, mapear objetos, POST, PUT y DELETE.
+
+
+### Nuevo ciclo de Redux
+
+Necesitamos crearle todo el ciclo de Redux
+- **Types**  Constantes que definen el nombre global de la acción
+- **Reducer** Es el encargado de manejar las acciones para un módulo particular (Usuarios, Publicaciones)
+- **Action creator** Son los métodos encargados de realizar las peticiones
+- **Componente** Es la parte visual, donde colocamos los datos para que sean visuzalizados.
+
+
+Como se **normalizan** datos se usan objetos vacíos.
+
+En esta sesión se creó cada uno de los archivos necesarios para las tareas.
+
+
+### Normalizar datos.
+
+Como nuestra URL devuelve las tareas de todos los usuarios, necesitamos separarlos por usuario y por Id para la aplicación.
+
+Se usará el `userId` y el _idTareas_ para normalizar la información.
+
+La normalización de datos se hace a través de una iteración organizado la información por el id del usuario y por el id de la tarea. Lo que se hace es sobreescribir el arreglo por id de usuario agregandole una tarea que le pertenezca.
+
+```js
+const tareas = {};
+respuesta.data.map((task) => (
+
+  tareas[task.userId] = {
+    ...tareas[task.userId],
+    [task.id]: {
+      ...task
+    }
+  }
+
+));
+```
+
+
+### Mapear Objetos
+
+Un objeto **Map** puede iterar sobre sus elementos en orden de inserción. Un bucle `for..of` devolverá un array de **_[clave, valor]_** en cada iteración.
+
+Cabe destacar que un **Map** el cual es un mapa de un objeto, _especialmente un diccionario de diccionarios_, solo se va a mapear en el orden de inserción del objeto — el cual es _aleatorio y no ordenado_
+
+Se agrega el contenido para desplegar al usuario.
+
+Como normalizamos los datos, ya no tenemos un arreglo, tenemos un objeto. Lo que se hace es retornar un `Object.keys(tareas)`
+
+
+### Componente para agregar tarea
+
+Se creará un componente para crear o dar de alta una tarea.
+
+Se crea el componente llamado **Guardar** en el directorio _tareas_ de la carpeta _componentes_.
+
+[Tareas/Guardar.js](blog/src/components/Tareas/Guardar.js)
+
+
+### Manejar inputs con Reducer
+
+En este caso se usará Redux para almacenar los valores que digite el usuario en el formulario.
+
+
+### POST
+
+En este caso, al momento de dar clic en guardar lo que se debe hacer es almacenar temporalmente o permanentemente los datos.
+
+
+Forma alternativa para no usar Axios y usar la función que viene nativa en js
+```js
+const data = await fetch("https://jsonplaceholder.typicode.com/todos",
+    { 
+        method: 'POST', 
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(newTask)
+    }
+).then(response => response.json())
+```
+
+Usando  _axios_
+
+```js
+export const agregar = (nueva_tarea) => async (dispatch) => {
+  dispatch({
+    type: CARGANDO
+  });
+
+  try {
+    const respuesta = await axios.post('https://jsonplaceholder.typicode.com/todos', nueva_tarea);
+
+    console.log(respuesta.data);
+
+    dispatch({
+      type: 'agregada'
+    });
+
+  } catch (error) {
+    console.log(error.message);
+
+    dispatch({
+      type: ERROR,
+      payload: 'Intente más tarde'
+    });
+  }
+}
+```
+
+### Deshabilitando botón
+
+Para deshabilitar el botón, se usa la propiedad `disabled` y se crea una función que se ejecute automáticamente para verificar si se puede habilitar o deshabilitar de acuerdo a las acciones del usuario.
+
+```js
+<button
+  onClick={this.guardar}
+  disabled={this.deshabilitar()}>
+  Guardar
+</button>
+```
+
+- `import { Redirect } from 'react-router-dom';` Nos permite redireccionar al usuario una vez se haya completado una acción. En este caso, cuando se ha creado una tarea.
+
+[Tareas/Guargar.js](blog/src/components/Tareas/Guardar.js)
+
+
+### Redireccionar 
+
+Para este caso, se agrega una nueva propiedad al estado que se llame **`regresar`** donde se especifica si el usuario puede regresar a la pestaña anterior o no.
+
+Luego se hace una validación antes del render que verifique si hay que redireccionar al usuario
+
+
+### Reutilizar componentes
+
+Se usan los mismos componentes para agregar y editar tareas. Lo que se hace es mandar por parámetro el **id** del usuario y el **idTarea** para identificar la tarea que se quiere modificar.
+
+
+### PUT
+
+Ocurre un error cuando se recarga la página en editar tareas, esto se debe porque busca una tarea que aún no existe.
+
+Como se necesita las tareasActuales se usa el **getState**
+
+(Patrones de inmutabilidad Redux)[https://redux.js.org/recipes/structuring-reducers/immutable-update-patterns/#correct-approach-copying-all-levels-of-nested-data]
+
+
+### Delete
+
+Se coloca una funcionalidad al botón de eliminar.
+
+
+### Últimos detalles
+
+Hemos terminado finalmente con el uso de Redux en nuestro proyecto, aplicando las mejores prácticas y métodos HTTP como GET, POST, PUT y DELETE.
+
+Nos gustaría ver cómo quedó tu proyecto, compártelo en la sección de aportes de la clase para que todos podamos verlo.
+
